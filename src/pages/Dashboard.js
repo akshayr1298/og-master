@@ -40,7 +40,7 @@ function Dashboard({children}) {
                          <FaCheckCircle size={25}  color='white' style={{paddingRight:10}}/><p style={{ color:'white', fontWeight:'bold', margin: 0}}>Packages</p>
                     </div>
                     </Link>
-                    <Link to="/Verufy" className="nav-link">
+                    <Link to="/Candidate" className="nav-link">
                     <div style={{display: 'flex', alignItems: 'center', paddingLeft:'15%', borderRadius:15, paddingTop:10, paddingBottom:10,backgroundColor: selectedMenu === 'menu3' ? 'lightskyblue' : 'transparent' }} onClick={() => handleMenuClick('menu3')}>
                         <FaCheckCircle size={25}  color='white' style={{paddingRight:10}}/>
                         <p style={{ color:'white', fontWeight:'bold', margin: 0}}>Candidate List</p>

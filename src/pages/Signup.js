@@ -26,12 +26,12 @@ function Signup() {
 
       promise.then(
         async function(response){
-          console.log(response);
+          console.log('response',response);
     
           // Log in the user after sign-up
           try {
             const res = await account.createEmailSession(user.email, user.password);
-            console.log(res)
+            console.log('res-session',res)
             navigate("/profile"); // Success
           } catch (error) {
             console.log(error);

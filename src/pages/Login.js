@@ -1,26 +1,41 @@
-import React, {useState} from 'react';
-import {account} from '../config/appwriteConfig';
-import {useNavigate} from 'react-router-dom';
+import React, { useState } from "react";
+import { account } from "../config/appwriteConfig";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
-    const navigate = useNavigate()
-    const [user, setUser] = useState({
-        email: "",
-        password: ""
-    })
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
 
-    const loginUser = async (e) => {
-        e.preventDefault()
-        try {
-            await account.createEmailSession(user.email, user.password)
-            navigate("/profile")
-        } catch (error) {
-            console.log(error);
-        }
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      const login = await account.createEmailSession(user.email, user.password);
+      console.log("login_res", login);
+      toast.success("successfully login!");
+      navigate("/profile");
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      console.log("error", error.message);
     }
+  };
 
   return (
     <>
+      <ToastContainer />
       <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="text-center font-bold text-2xl">Log in</div>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -42,10 +57,10 @@ function Login() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                        setUser({
-                            ...user,
-                            email: e.target.value
-                        })
+                      setUser({
+                        ...user,
+                        email: e.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -67,10 +82,10 @@ function Login() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                        setUser({
-                            ...user,
-                            password: e.target.value
-                        })
+                      setUser({
+                        ...user,
+                        password: e.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -175,7 +190,7 @@ function Login() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default Login;

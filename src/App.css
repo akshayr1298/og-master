@@ -23,6 +23,37 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cont {
+  
+  display: flex;
+  height: 100vh;
+  
+}
+
+.left-pane {
+ 
+  flex:15%;
+  background-color: white;
+  /* padding-left: 8px; */
+  padding-top: 15px;
+  padding-bottom: 25px;
+  /* padding-right: 8px; */
+  height: '100vh';
+ 
+  box-sizing: border-box;
+}
+
+.right-pane {
+  flex:85%;
+  background-color: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
 .App-link {
   color: #61dafb;

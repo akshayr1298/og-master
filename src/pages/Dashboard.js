@@ -32,7 +32,7 @@ function Dashboard({children}) {
                 <Link to="/Manageuser" className="nav-link">
                     <div style={{ display: 'flex', alignItems: 'center', paddingLeft:'15%', borderRadius:15, paddingTop:10, paddingBottom:10, backgroundColor: selectedMenu === 'menu1' ? 'lightskyblue' : 'transparent' }} onClick={() => handleMenuClick('menu1')}>
                        <FaUser color='white' size={25} style={{ paddingRight:10 }} />
-                       <p style={{ color:'white', fontWeight:'bold', margin: 0 }}>Manage Users</p>
+                       <p style={{ color:'white', fontWeight:'bold', margin: 0 }}>Manage company users</p>
                     </div>
                     </Link>
                     <Link to="/Package" className="nav-link">

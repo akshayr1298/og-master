@@ -14,7 +14,6 @@ function Signup() {
   });
    const [nameErr,setNameErr] = useState(false);
    const [emailErr,setEmailErr] = useState(false);
-   const [passswordErr,setPasswordErr] = useState(false);
 
   //Signup
 

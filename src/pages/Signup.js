@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { account } from '../config/appwriteConfig';
+import React, {useState} from 'react';
+import {account} from '../config/appwriteConfig';
 import { useNavigate } from 'react-router-dom';
 import { ID } from "appwrite";
-
+import { ToastContainer, toast } from "react-toastify";
+import { validEmail, validName } from "../RegexValidation/validation";
 
 function Signup() {
   const navigate = useNavigate();
@@ -10,14 +11,25 @@ function Signup() {
     name: "",
     email: "",
     password: "",
-  })
+  });
+   const [nameErr,setNameErr] = useState(false);
+   const [emailErr,setEmailErr] = useState(false);
+   const [passswordErr,setPasswordErr] = useState(false);
+
+  
   const [usertype, setUSerType] = useState('');
 
   //Signup
 
   const signupUser = async (e) => {
     e.preventDefault();
-    console.log(usertype)
+    if(!validName.test(user.name)){
+      setNameErr(true)
+    }
+    if(!validEmail.test(user.email)){
+      setEmailErr(true)
+    }
+        console.log(usertype)
 
     const promise = account.create(
       ID.unique(),
@@ -66,8 +78,8 @@ function Signup() {
 
   // console.log('user-type: '+ usertype)
   return (
-    <>
-      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <>
+        <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="text-center text-2xl font-bold">Sign up</div>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -88,12 +100,13 @@ function Signup() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                      setUser({
-                        ...user,
-                        name: e.target.value
-                      })
+                        setUser({
+                            ...user,
+                            name: e.target.value
+                        })
                     }}
                   />
+                  {nameErr && <small  style={{ color: 'red' }}>Enter a valid name</small>}
                 </div>
               </div>
               <div>
@@ -110,12 +123,12 @@ function Signup() {
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                      setUser({
-                        ...user,
-                        email: e.target.value
-                      })
+                        setUser({
+                            ...user,
+                            email: e.target.value
+                        })
                     }}
-                  />
+                    />
                 </div>
               </div>
 
@@ -135,10 +148,10 @@ function Signup() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                      setUser({
-                        ...user,
-                        password: e.target.value
-                      })
+                        setUser({
+                            ...user,
+                            password: e.target.value
+                        })
                     }}
                   />
                 </div>
@@ -249,7 +262,7 @@ function Signup() {
           </div>
         </div>
       </div>
-    </>
+  </>
   )
 
 }

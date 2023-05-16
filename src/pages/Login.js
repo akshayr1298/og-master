@@ -22,7 +22,11 @@ function Login() {
     setLoading(true);
     try {
       if(!validEmail.test(user.email)){
-        setEmailErr(true)
+        setTimeout(()=>{
+          setLoading(false)
+        },1000)
+        
+        return setEmailErr(true)
       }
       await account.createEmailSession(user.email, user.password);
       setTimeout(() => {
@@ -136,7 +140,7 @@ function Login() {
                           fill="currentColor"
                         />
                       </svg>
-                      Loading...
+                      Loging in...
                     </button>
                   ) : (
                     "Log in"

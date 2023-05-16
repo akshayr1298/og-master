@@ -1,52 +1,73 @@
-import React, {useState} from 'react';
-import {account} from '../config/appwriteConfig';
+import React, { useState } from 'react';
+import { account } from '../config/appwriteConfig';
 import { useNavigate } from 'react-router-dom';
-import {v4 as uuidv4} from 'uuid';
+import { ID } from "appwrite";
 
 
 function Signup() {
   const navigate = useNavigate();
-  const [user , setUser] = useState({
+  const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
   })
-   
+  const [usertype, setUSerType] = useState('');
+
   //Signup
 
   const signupUser = async (e) => {
     e.preventDefault();
+    console.log(usertype)
 
     const promise = account.create(
-      uuidv4(),
+      ID.unique(),
       user.email,
       user.password,
       user.name
-      );
+    );
 
-      promise.then(
-        async function(response){
-          console.log(response);
-    
-          // Log in the user after sign-up
-          try {
-            const res = await account.createEmailSession(user.email, user.password);
-            console.log(res)
-            navigate("/profile"); // Success
-          } catch (error) {
-            console.log(error);
-          }
-        },
-        function (error) {
-          console.log(error);  // Failure
+
+    promise.then(
+      async function (response) {
+        console.log(response);
+
+        // Log in the user after sign-up
+        try {
+          const res = await account.createEmailSession(user.email, user.password);
+          console.log(res)
+
+          const pref_promise = account.updatePrefs({ usertype: usertype, });
+
+          pref_promise.then(function (response) {
+            console.log(response);
+            navigate("/profile");
+          }, function (error) {
+            //pref error
+            console.log('pref error: ' + error);
+          });
+
+          // Success
+        } catch (error) {
+          // create session error
+          console.log('create session error: ' + error);
         }
-      )
-    }
+      },
+      function (error) {
+        //signUp error
+        console.log('signUp error: ' + error);  // Failure
+      }
+    )
+  }
 
+  const handleOptionChange = (event) => {
+    setUSerType(event.target.value);
+    console.log('user-type: '+ usertype)
+  };
 
+  // console.log('user-type: '+ usertype)
   return (
-  <>
-        <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <>
+      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="text-center text-2xl font-bold">Sign up</div>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -67,10 +88,10 @@ function Signup() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                        setUser({
-                            ...user,
-                            name: e.target.value
-                        })
+                      setUser({
+                        ...user,
+                        name: e.target.value
+                      })
                     }}
                   />
                 </div>
@@ -89,12 +110,12 @@ function Signup() {
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                        setUser({
-                            ...user,
-                            email: e.target.value
-                        })
+                      setUser({
+                        ...user,
+                        email: e.target.value
+                      })
                     }}
-                    />
+                  />
                 </div>
               </div>
 
@@ -114,13 +135,31 @@ function Signup() {
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     onChange={(e) => {
-                        setUser({
-                            ...user,
-                            password: e.target.value
-                        })
+                      setUser({
+                        ...user,
+                        password: e.target.value
+                      })
                     }}
                   />
                 </div>
+              </div>
+
+              <div className="relative">
+                <label htmlFor="dropdown" className="block text-gray-700 text-sm font-medium mb-1">
+                  Select an option:
+                </label>
+                <select
+                  id="dropdown"
+                  value={usertype}
+                  onChange={handleOptionChange}
+                  className="block w-full py-2 pl-3 pr-10 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                >
+                  <option value="admin">Admin</option>
+                  <option value="company">Company</option>
+                  <option value="employee">Employee</option>
+                  <option value="user">User</option>
+                </select>
+                <p className="text-gray-500 text-sm mt-1">Selected option: {usertype}</p>
               </div>
 
               <div>
@@ -133,7 +172,7 @@ function Signup() {
                 </button>
               </div>
             </form>
-            
+
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -210,7 +249,7 @@ function Signup() {
           </div>
         </div>
       </div>
-  </>
+    </>
   )
 
 }

@@ -13,7 +13,6 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
   const [emailErr,setEmailErr] = useState(false);
-  const [passswordErr,setPasswordErr] = useState(false);
 
   
 
